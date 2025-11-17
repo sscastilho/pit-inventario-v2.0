@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS tb_usuario (
+    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    senha TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS tb_categoria (
+    id_categoria INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL UNIQUE
+);
+CREATE TABLE IF NOT EXISTS tb_item (
+    id_item INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    quantidade_atual INTEGER NOT NULL DEFAULT 0,
+    id_categoria INTEGER NOT NULL,
+    FOREIGN KEY (id_categoria) REFERENCES tb_categoria (id_categoria)
+);
+CREATE TABLE IF NOT EXISTS tb_movimentacao (
+    id_movimentacao INTEGER PRIMARY KEY AUTOINCREMENT,
+    data_hora TEXT NOT NULL,
+    tipo TEXT NOT NULL CHECK(tipo IN ('Entrada', 'Saída')),
+    quantidade INTEGER NOT NULL,
+    id_item INTEGER NOT NULL,
+    id_usuario INTEGER NOT NULL,
+    FOREIGN KEY (id_item) REFERENCES tb_item (id_item),
+    FOREIGN KEY (id_usuario) REFERENCES tb_usuario (id_usuario)
+);
